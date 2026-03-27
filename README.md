@@ -31,9 +31,9 @@ The base Class B network `180.180.0.0/16` is subnetted into 8 equal-sized subnet
 | :--- | :--- | :--- | :--- | :--- |
 | **Router0** | Fa0/1 (LAN 1) | 180.180.0.1 | 255.255.224.0 | N/A |
 | | Fa0/0 (to R1) | 180.180.32.1 | 255.255.224.0 | N/A |
-| **Router1** | Fa0/0 (to R0) | 180.180.32.2 | 255.255.224.0 | N/A |
+| **Router1** | Fa0/1 (to R0) | 180.180.32.2 | 255.255.224.0 | N/A |
 | | Fa1/0 (to R2) | 180.180.96.1 | 255.255.224.0 | N/A |
-| | Fa0/1 (LAN 2) | 180.180.64.1 | 255.255.224.0 | N/A |
+| | Fa0/0 (LAN 2) | 180.180.64.1 | 255.255.224.0 | N/A |
 | **Router2** | Fa0/0 (to R1) | 180.180.96.2 | 255.255.224.0 | N/A |
 | | Fa1/0 (to R3) | 180.180.160.1 | 255.255.224.0 | N/A |
 | | Fa0/1 (LAN 3) | 180.180.128.1 | 255.255.224.0 | N/A |
@@ -72,11 +72,9 @@ ip route 180.180.160.0 255.255.224.0 180.180.32.2
 ip route 180.180.192.0 255.255.224.0 180.180.32.2
 
 ! DHCP Configuration for LAN 1
-ip dhcp excluded-address 180.180.0.1 180.180.0.10
-ip dhcp pool LAN1_POOL
+ip dhcp pool P0
  network 180.180.0.0 255.255.224.0
  default-router 180.180.0.1
- dns-server 8.8.8.8
  exit
 ```
 
@@ -86,7 +84,7 @@ enable
 configure terminal
 
 ! Interface Configuration
-interface fa0/0
+interface fa0/1
  ip address 180.180.32.2 255.255.224.0
  no shutdown
  exit
@@ -96,7 +94,7 @@ interface fa1/0
  no shutdown
  exit
 
-interface fa0/1
+interface fa0/0
  ip address 180.180.64.1 255.255.224.0
  no shutdown
  exit
@@ -108,11 +106,9 @@ ip route 180.180.160.0 255.255.224.0 180.180.96.2
 ip route 180.180.192.0 255.255.224.0 180.180.96.2
 
 ! DHCP Configuration for LAN 2
-ip dhcp excluded-address 180.180.64.1 180.180.64.10
-ip dhcp pool LAN2_POOL
+ip dhcp pool P1
  network 180.180.64.0 255.255.224.0
  default-router 180.180.64.1
- dns-server 8.8.8.8
  exit
 ```
 
@@ -144,11 +140,9 @@ ip route 180.180.64.0 255.255.224.0 180.180.96.1
 ip route 180.180.192.0 255.255.224.0 180.180.160.2
 
 ! DHCP Configuration for LAN 3
-ip dhcp excluded-address 180.180.128.1 180.180.128.10
-ip dhcp pool LAN3_POOL
+ip dhcp pool P2
  network 180.180.128.0 255.255.224.0
  default-router 180.180.128.1
- dns-server 8.8.8.8
  exit
 ```
 
@@ -176,11 +170,9 @@ ip route 180.180.96.0 255.255.224.0 180.180.160.1
 ip route 180.180.128.0 255.255.224.0 180.180.160.1
 
 ! DHCP Configuration for LAN 4
-ip dhcp excluded-address 180.180.192.1 180.180.192.10
-ip dhcp pool LAN4_POOL
+ip dhcp pool P3
  network 180.180.192.0 255.255.224.0
  default-router 180.180.192.1
- dns-server 8.8.8.8
  exit
 ```
 
